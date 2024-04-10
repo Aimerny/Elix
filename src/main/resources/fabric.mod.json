@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "elix",
+  "version": "${version}",
+  "name": "Elix",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/Aimerny/Elix"
+  },
+  "license": "GPL-3.0",
+  "icon": "assets/elix/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": [
+      "icu.aimerny.elix.data.ElixDataGenerator"
+    ],
+    "main": [
+      "icu.aimerny.elix.Elix"
+    ]
+  },
+  "mixins": [
+    "elix.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
