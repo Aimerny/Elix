@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "group": "obsidian",
+  "ingredient": {
+    "item": "minecraft:obsidian"
+  },
+  "result": "elix:obsidian_ingot",
+  "experience": 1
+}
