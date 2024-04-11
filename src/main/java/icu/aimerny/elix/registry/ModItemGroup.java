@@ -2,6 +2,7 @@ package icu.aimerny.elix.registry;
 
 import icu.aimerny.elix.Elix;
 import icu.aimerny.elix.armor.ObsidianArmor;
+import icu.aimerny.elix.tool.ObsidianToolMaterial;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -21,6 +22,7 @@ public class ModItemGroup {
                 entries.add(ModItem.OBSIDIAN_INGOT);
                 entries.add(ModBlock.OBSIDIAN_ORE.asItem());
                 entries.add(ModBlock.ELIX_BLOCK.asItem());
+                entries.add(ModBlock.OBSIDIAN_GLASS_BLOCK.asItem());
             })
             .build();
 
@@ -32,6 +34,13 @@ public class ModItemGroup {
                 entries.add(ObsidianArmor.OBSIDIAN_MATERIAL_CHESTPLATE);
                 entries.add(ObsidianArmor.OBSIDIAN_MATERIAL_LEGGINGS);
                 entries.add(ObsidianArmor.OBSIDIAN_MATERIAL_BOOTS);
+
+                entries.add(ObsidianToolMaterial.OBSIDIAN_AXE);
+                entries.add(ObsidianToolMaterial.OBSIDIAN_HOE);
+                entries.add(ObsidianToolMaterial.OBSIDIAN_SWORD);
+                entries.add(ObsidianToolMaterial.OBSIDIAN_PICKAXE);
+                entries.add(ObsidianToolMaterial.OBSIDIAN_SHOVEL);
+
             })).build();
 
     public static void init(){

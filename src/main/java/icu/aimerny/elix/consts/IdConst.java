@@ -5,6 +5,7 @@ public abstract class IdConst {
 
     public static final String OBSIDIAN_INGOT = "obsidian_ingot";
     public static final String OBSIDIAN_ORE = "obsidian_ore";
+    public static final String OBSIDIAN_GLASS = "obsidian_glass";
 
     public static final String OBSIDIAN_MATERIAL_HELMET = "obsidian_material_helmet";
     public static final String OBSIDIAN_MATERIAL_CHESTPLATE = "obsidian_material_chestplate";

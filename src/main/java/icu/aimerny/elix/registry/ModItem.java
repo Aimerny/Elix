@@ -4,6 +4,7 @@ package icu.aimerny.elix.registry;
 import icu.aimerny.elix.Elix;
 import icu.aimerny.elix.armor.ObsidianArmor;
 import icu.aimerny.elix.consts.IdConst;
+import icu.aimerny.elix.tool.ObsidianToolMaterial;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
@@ -22,6 +23,7 @@ public class ModItem {
     public static void init() {
         // init armors
         ObsidianArmor.init();
+        ObsidianToolMaterial.init();
 
         // init other
         register(IdConst.OBSIDIAN_INGOT, OBSIDIAN_INGOT);

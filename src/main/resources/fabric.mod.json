@@ -17,6 +17,9 @@
     ],
     "main": [
       "icu.aimerny.elix.Elix"
+    ],
+    "client": [
+      "icu.aimerny.elix.ElixClient"
     ]
   },
   "mixins": [
