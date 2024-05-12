@@ -18,8 +18,8 @@ func main() {
 
 func kook(wg *sync.WaitGroup) {
 	defer wg.Done()
-	common.InitLogger()
 	config := common.ReadConfig()
+	common.InitLogger(config.LogLevel)
 	kookSession, err := session.CreateSession(config.BotToken, config.Compress)
 	if err != nil {
 		logrus.Errorf("create session failed! exiting...")

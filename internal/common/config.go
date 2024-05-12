@@ -10,8 +10,9 @@ type Config struct {
 	BotToken string `json:"token"`
 	Compress bool   `json:"compress"`
 
-	ApiServerPort     int `json:"api_server_port"`
-	WsProxyServerPort int `json:"ws_proxy_server_port"`
+	ApiServerPort     int    `json:"api_server_port"`
+	WsProxyServerPort int    `json:"ws_proxy_server_port"`
+	LogLevel          string `json:"log_level"`
 }
 
 const configPath string = "conf.json"
@@ -21,6 +22,7 @@ var defaultConf = &Config{
 	Compress:          true,
 	ApiServerPort:     9001,
 	WsProxyServerPort: 9000,
+	LogLevel:          "INFO",
 }
 
 func ReadConfig() *Config {
