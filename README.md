@@ -30,15 +30,16 @@
 
 ```json5
 {
-  "token": "Your kook bot token",
-  "compress": true, // 是否启用zlib压缩传输,建议保持不变
-  "api_server_port": 9001, // http api服务的端口
-  "ws_proxy_server_port": 9000 // ws代理服务的端口
+   "token": "Your kook bot token",
+   "compress": true, // 是否启用zlib压缩传输,建议保持不变
+   "api_server_port": 9001, // http api服务的端口
+   "ws_proxy_server_port": 9000, // ws代理服务的端口
+   "log_level": "INFO" //日志等级,有如下选项: TRACE, DEBUG, INFO, WARN, ERROR. 不配置默认为INFO级别
 }
 ```
 
 ### 其他
 
-本项目使用[kook-go](https://github.com/Aimerny/kook-go)作为连接Kook的Sdk进行开发https://github.com/Aimerny/kook-go
+本项目使用[kook-go](https://github.com/Aimerny/kook-go)作为连接Kook的Sdk进行开发
 
 > 本项目目前还在开发中，如果感觉对自己有帮助还请点个star⭐️，有任何建议或者意见欢迎提issue~**
