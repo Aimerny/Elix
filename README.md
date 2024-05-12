@@ -2,12 +2,11 @@
 
 > 一个Kook机器人的事件代理服务
 
-本项目创建的初衷是为了更方便地将kook的机器人的事件转发到下游连接的clients中(类似于[go-cqhttp](https://github.com/Mrs4s/go-cqhttp)
-的事件上报服务)，采用websocket方式进行网络通信。
+本项目创建的初衷是为了更方便地将kook的机器人的事件转发到下游连接的clients中(类似于[go-cqhttp](https://github.com/Mrs4s/go-cqhttp)的事件上报服务)，采用websocket方式进行网络通信。
 
 ### 功能
 
-- 作为Kook的代理服务，对接下游的处理服务进行处理(目前主要为[kook-api](https://github.com/Aimenry/KookAPI)插件提供api)
+- 作为Kook的代理服务，对接下游的处理服务进行处理(目前主要为[KookAPI](https://github.com/Aimerny/KookAPI)插件提供api)
 - 开箱即用的maimai查分服务
 
 ### 使用姿势
@@ -15,7 +14,7 @@
 1. 下载对应平台的可执行程序，执行
 
    ```shell
-   ./elix
+   ./Elix
    ```
 
 1. 如果在elix同级目录已经存在配置文件，将会读取对应配置文件，否则将会创建新的配置文件，请修改配置文件中的`token`为自己的机器人的token值
@@ -40,6 +39,6 @@
 
 ### 其他
 
-本项目使用[kook-go](https://github.com/Aimenry/kook-go)作为连接Kook的Sdk进行开发
+本项目使用[kook-go](https://github.com/Aimerny/kook-go)作为连接Kook的Sdk进行开发https://github.com/Aimerny/kook-go
 
 > 本项目目前还在开发中，如果感觉对自己有帮助还请点个star⭐️，有任何建议或者意见欢迎提issue~**
