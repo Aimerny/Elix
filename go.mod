@@ -3,11 +3,10 @@ module github/aimerny/elix
 go 1.22.2
 
 require (
-	github.com/aimerny/kook-go v0.1.9
+	github.com/aimerny/kook-go v0.1.10
 	github.com/gorilla/websocket v1.5.0
 	github.com/json-iterator/go v1.1.12
 	github.com/sirupsen/logrus v1.9.3
-	github.com/tencent-connect/botgo v0.1.6
 )
 
 require (
