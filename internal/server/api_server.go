@@ -2,8 +2,10 @@ package server
 
 import (
 	"github.com/aimerny/kook-go/core/action"
+	"github.com/aimerny/kook-go/core/model"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/sirupsen/logrus"
+	"github/aimerny/elix/internal/service"
 	"io"
 	"net/http"
 	"strconv"
@@ -11,6 +13,7 @@ import (
 
 func StartApiServer(port int) {
 	http.HandleFunc("/message/send", messageSend)
+	http.HandleFunc("/channel/bot-channels", getAllBotChannelsMeta)
 	logrus.Info("start kook api server")
 	err := http.ListenAndServe(":"+strconv.Itoa(port), nil)
 	if err != nil {
@@ -27,7 +30,7 @@ func messageSend(resp http.ResponseWriter, req *http.Request) {
 		resp.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	msgReq := &action.MessageCreateReq{}
+	msgReq := &model.MessageCreateReq{}
 	err = jsoniter.Unmarshal(bodyBytes, msgReq)
 	if err != nil {
 		logrus.WithError(err).Error("unmarshal req body failed")
@@ -35,4 +38,13 @@ func messageSend(resp http.ResponseWriter, req *http.Request) {
 	}
 	action.MessageSend(msgReq)
 	logrus.WithField("msg", msgReq).Info("server send req")
+}
+
+func getAllBotChannelsMeta(resp http.ResponseWriter, req *http.Request) {
+	query := req.URL.Query()
+	searchKey := query.Get("searchKey")
+	channels := service.FindChannels(searchKey)
+	bytes, _ := jsoniter.Marshal(channels)
+	resp.WriteHeader(http.StatusOK)
+	resp.Write(bytes)
 }
