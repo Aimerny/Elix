@@ -13,6 +13,9 @@ type Config struct {
 	ApiServerPort     int    `json:"api_server_port"`
 	WsProxyServerPort int    `json:"ws_proxy_server_port"`
 	LogLevel          string `json:"log_level"`
+
+	// data source
+	OngeDatasource *DatasourceConf `json:"onge_datasource"`
 }
 
 const configPath string = "conf.json"
@@ -23,6 +26,7 @@ var defaultConf = &Config{
 	ApiServerPort:     9001,
 	WsProxyServerPort: 9000,
 	LogLevel:          "INFO",
+	OngeDatasource:    &DatasourceConf{},
 }
 
 func ReadConfig() *Config {

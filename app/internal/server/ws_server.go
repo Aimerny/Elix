@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gorilla/websocket"
 	"github.com/sirupsen/logrus"
+	"github/aimerny/elix/app/internal/service"
 	"net/http"
 )
 
@@ -13,7 +14,6 @@ var upgrader = websocket.Upgrader{
 	CheckOrigin:     checkOrigin,
 }
 
-var Clients = make(map[*websocket.Conn]bool)
 var Broadcast = make(chan []byte)
 
 func StartWsProxyServer(port int) {
@@ -32,13 +32,13 @@ func EchoMessage(w http.ResponseWriter, r *http.Request) {
 		logrus.Warning("upgrade failed!")
 	}
 	//add client to cache
-	Clients[conn] = true
+	service.Clients[conn] = true
 	defer conn.Close()
 	for {
 		msgType, msg, err := conn.ReadMessage()
 		if err != nil {
 			logrus.Warning("ws read message error, remove the conn from clients:", err)
-			delete(Clients, conn)
+			delete(service.Clients, conn)
 			break
 		}
 

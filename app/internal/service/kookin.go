@@ -3,10 +3,15 @@ package service
 import (
 	"errors"
 	"github.com/aimerny/kook-go/app/core/action"
+	"github.com/aimerny/kook-go/app/core/model"
+	"github.com/gorilla/websocket"
+	jsoniter "github.com/json-iterator/go"
 	log "github.com/sirupsen/logrus"
 	"github/aimerny/elix/app/internal/dto"
 	"strings"
 )
+
+var Clients = make(map[*websocket.Conn]bool)
 
 func FindChannels(searchKey string) *dto.GetChannelResp {
 	res := &dto.GetChannelResp{
@@ -47,4 +52,22 @@ func FindChannels(searchKey string) *dto.GetChannelResp {
 		}
 	}
 	return res
+}
+
+// ForwardEventToAllClients forward to connected clients
+func ForwardEventToAllClients(evt *model.Event) {
+	// send to ws clients
+	clients := Clients
+	for conn, status := range clients {
+		if conn == nil || !status {
+			log.WithField("client", conn).Warn("client status is not active or client is nil.has been removed")
+			delete(clients, conn)
+			continue
+		}
+		bytes, _ := jsoniter.Marshal(evt)
+		err := conn.WriteMessage(websocket.TextMessage, bytes)
+		if err != nil {
+			log.WithError(err).WithField("data", string(bytes)).Error("send ws text message failed")
+		}
+	}
 }

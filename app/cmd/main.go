@@ -6,6 +6,7 @@ import (
 	"github/aimerny/elix/app/internal/common"
 	"github/aimerny/elix/app/internal/event/kook-event"
 	"github/aimerny/elix/app/internal/server"
+	"github/aimerny/elix/app/internal/service"
 	"sync"
 )
 
@@ -25,8 +26,14 @@ func kook(wg *sync.WaitGroup) {
 		logrus.Errorf("create session failed! exiting...")
 		return
 	}
+	initService(config)
 	go server.StartApiServer(config.ApiServerPort)
 	go server.StartWsProxyServer(config.WsProxyServerPort)
 	kookSession.RegisterEventHandler(&kook_event.ElixEventHandler{})
 	kookSession.Start()
+}
+
+func initService(config *common.Config) {
+	// init onge service
+	service.InitOngeService(config.OngeDatasource)
 }

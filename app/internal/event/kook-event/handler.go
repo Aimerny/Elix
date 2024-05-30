@@ -3,10 +3,10 @@ package kook_event
 import (
 	"github.com/aimerny/kook-go/app/core/event"
 	"github.com/aimerny/kook-go/app/core/model"
-	"github.com/gorilla/websocket"
-	jsoniter "github.com/json-iterator/go"
 	log "github.com/sirupsen/logrus"
-	"github/aimerny/elix/app/internal/server"
+	"github/aimerny/elix/app/internal/command"
+	"github/aimerny/elix/app/internal/service"
+	"strings"
 )
 
 type ElixEventHandler struct {
@@ -18,17 +18,26 @@ func (handler *ElixEventHandler) DoKMarkDown(evt *model.Event) {
 	if extra.Author.Bot {
 		return
 	}
-	clients := server.Clients
-	for conn, status := range clients {
-		if conn == nil || !status {
-			log.WithField("client", conn).Warn("client status is not active or client is nil.has been removed")
-			delete(clients, conn)
-			continue
-		}
-		bytes, _ := jsoniter.Marshal(evt)
-		err := conn.WriteMessage(websocket.TextMessage, bytes)
-		if err != nil {
-			log.WithError(err).WithField("data", string(bytes)).Error("send ws text message failed")
-		}
+	// elix process
+	err := elixProcess(evt.Content, evt)
+	if err != nil {
+		log.WithError(err).WithField("event", evt).Error("elix process event failed!")
+		return
 	}
+}
+
+func elixProcess(content string, evt *model.Event) error {
+	// default prefix is '/'
+	cmdPrefix := "/"
+	if ok := strings.HasPrefix(content, cmdPrefix); !ok {
+		log.WithField("content", content).Debug("message is not command, common process")
+		service.ForwardEventToAllClients(evt)
+	}
+	parsedCommand, err := command.Parse(content)
+	if err != nil {
+		return err
+	}
+	log.WithField("command", parsedCommand).Debug("command parse success")
+	err = service.Route(parsedCommand, evt)
+	return err
 }
