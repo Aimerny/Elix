@@ -1,7 +1,7 @@
 package command
 
 import (
-	"github.com/aimerny/kook-go/common"
+	"github.com/aimerny/kook-go/app/common"
 	"github.com/sirupsen/logrus"
 	"testing"
 )

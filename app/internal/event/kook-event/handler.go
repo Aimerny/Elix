@@ -1,8 +1,8 @@
 package kook_event
 
 import (
-	"github.com/aimerny/kook-go/core/event"
-	"github.com/aimerny/kook-go/core/model"
+	"github.com/aimerny/kook-go/app/core/event"
+	"github.com/aimerny/kook-go/app/core/model"
 	"github.com/gorilla/websocket"
 	jsoniter "github.com/json-iterator/go"
 	log "github.com/sirupsen/logrus"

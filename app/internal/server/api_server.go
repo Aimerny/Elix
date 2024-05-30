@@ -1,8 +1,8 @@
 package server
 
 import (
-	"github.com/aimerny/kook-go/core/action"
-	"github.com/aimerny/kook-go/core/model"
+	"github.com/aimerny/kook-go/app/core/action"
+	"github.com/aimerny/kook-go/app/core/model"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/sirupsen/logrus"
 	"github/aimerny/elix/app/internal/service"

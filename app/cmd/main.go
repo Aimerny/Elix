@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/aimerny/kook-go/core/session"
+	"github.com/aimerny/kook-go/app/core/session"
 	"github.com/sirupsen/logrus"
 	"github/aimerny/elix/app/internal/common"
 	"github/aimerny/elix/app/internal/event/kook-event"
