@@ -32,13 +32,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Get version
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-
-      - name: Echo Version
-        run: echo ${{ steps.get_version.outputs.VERSION }}
-
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
