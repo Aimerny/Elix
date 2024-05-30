@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/aimerny/kook-go/core/action"
 	log "github.com/sirupsen/logrus"
-	"github/aimerny/elix/internal/dto"
+	"github/aimerny/elix/app/internal/dto"
 	"strings"
 )
 

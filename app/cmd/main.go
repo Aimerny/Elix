@@ -3,9 +3,9 @@ package main
 import (
 	"github.com/aimerny/kook-go/core/session"
 	"github.com/sirupsen/logrus"
-	"github/aimerny/elix/internal/common"
-	"github/aimerny/elix/internal/event/kook-event"
-	"github/aimerny/elix/internal/server"
+	"github/aimerny/elix/app/internal/common"
+	"github/aimerny/elix/app/internal/event/kook-event"
+	"github/aimerny/elix/app/internal/server"
 	"sync"
 )
 

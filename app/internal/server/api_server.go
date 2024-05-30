@@ -5,7 +5,7 @@ import (
 	"github.com/aimerny/kook-go/core/model"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/sirupsen/logrus"
-	"github/aimerny/elix/internal/service"
+	"github/aimerny/elix/app/internal/service"
 	"io"
 	"net/http"
 	"strconv"

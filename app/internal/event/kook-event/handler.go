@@ -6,7 +6,7 @@ import (
 	"github.com/gorilla/websocket"
 	jsoniter "github.com/json-iterator/go"
 	log "github.com/sirupsen/logrus"
-	"github/aimerny/elix/internal/server"
+	"github/aimerny/elix/app/internal/server"
 )
 
 type ElixEventHandler struct {
