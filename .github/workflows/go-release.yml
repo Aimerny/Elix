@@ -12,6 +12,7 @@ jobs:
 
     outputs:
       releases_created: ${{ steps.release-please.outputs.releases_created }}
+      #tag_name: ${{ steps.release-please.outputs[format('{0}--tag_name', steps.get-path.outputs.path)] }}
 
     steps:
       - name: Release Please
@@ -30,7 +31,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        run: |
+          git version
+          git clone "${{ github.event.repository.html_url }}" /home/runner/work/elix/elix
+          git checkout "${{ github.ref }}"
 
       - name: Set up Go
         uses: actions/setup-go@v3
