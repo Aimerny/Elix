@@ -18,8 +18,6 @@ type Config struct {
 	OngeDatasource *DatasourceConf `json:"onge_datasource"`
 }
 
-const configPath string = "conf.json"
-
 var defaultConf = &Config{
 	BotToken:          "Your kook-go bot token",
 	Compress:          true,
@@ -29,7 +27,7 @@ var defaultConf = &Config{
 	OngeDatasource:    &DatasourceConf{},
 }
 
-func ReadConfig() *Config {
+func ReadConfig(configPath string) *Config {
 
 	configData, err := os.ReadFile(configPath)
 	if err != nil {
