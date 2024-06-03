@@ -5,6 +5,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github/aimerny/elix/app/internal/client"
 	"github/aimerny/elix/app/internal/common"
+	"github/aimerny/elix/app/internal/dto"
 	"gorm.io/gorm"
 )
 
@@ -31,4 +32,18 @@ func InitOngeService(dbConf *common.DatasourceConf) {
 		OngeStatus = true
 	}
 	log.Infof("init onge service finished")
+	if *common.UpgradeOngeDatabase {
+		log.Infof("onge database upgrading ...")
+		err := OngeServiceDS.AutoMigrate(
+			&dto.MaiMusicInfo{},
+			&dto.MaiChartInfo{},
+			&dto.ChuniMusicInfo{},
+			&dto.ChuniChartInfo{},
+			&dto.OngeUserInfo{},
+		)
+		if err != nil {
+			log.WithError(err).Panicf("onge database upgrade failed")
+		}
+		log.Infof("onge database upgrade success")
+	}
 }
