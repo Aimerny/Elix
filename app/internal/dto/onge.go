@@ -49,3 +49,9 @@ type ChuniChartInfo struct {
 	Charter    string
 	Combo      int
 }
+
+type OngeUserInfo struct {
+	gorm.Model
+	KookId          string
+	DivingFishToken string
+}
