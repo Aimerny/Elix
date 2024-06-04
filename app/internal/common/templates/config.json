@@ -1,0 +1,20 @@
+{
+  "token": "Your kook bot token",
+  "compress": true,
+  "api_server_port": 9001,
+  "ws_proxy_server_port": 9000,
+  "log_level": "DEBUG",
+  "diving_fish_developer_token": "Diving fish develop token",
+
+  "onge_datasource": {
+    "type": "mysql",
+    "source_key": "demo",
+    "config": {
+      "address": "localhost:3306",
+      "database": "sega",
+      "user": "root",
+      "password": "root",
+      "ext_params": "charset=utf8mb4&parseTime=true&loc=Local"
+    }
+  }
+}
