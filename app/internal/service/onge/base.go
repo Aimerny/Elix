@@ -34,7 +34,15 @@ func InitOngeService(conf *common.Config) {
 		OngeStatus = true
 	}
 	if conf.DivingFishDeveloperToken != "" {
+		// init developer token
 		DeveloperToken = conf.DivingFishDeveloperToken
+		// init maimai new version music ids
+		newMaiMusics := make([]*dto.MaiMusicInfo, 0)
+		OngeServiceDS.Where(&dto.MaiMusicInfo{IsNew: true}).Find(&newMaiMusics)
+		for _, m := range newMaiMusics {
+			NewMaiMusicIds = append(NewMaiMusicIds, m.ID)
+		}
+
 	}
 	log.Infof("init onge service finished")
 	if *common.UpgradeOngeDatabase {
