@@ -60,7 +60,7 @@ func (c *MysqlDBConfig) ConnectDB() (*gorm.DB, error) {
 	log.Infof(">>>>>>> Connect Mysql dsn: %s", dsn)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		QueryFields: true,
-		Logger:      logger.Default.LogMode(logger.Info),
+		Logger:      logger.Default.LogMode(logger.Silent),
 	})
 	if err != nil {
 		log.Errorf("Connect to Mysql [%s] failed, config:[%v]", c.Database, c)

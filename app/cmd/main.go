@@ -37,5 +37,5 @@ func kook(wg *sync.WaitGroup) {
 
 func initService(config *common.Config) {
 	// init onge service
-	onge.InitOngeService(config.OngeDatasource)
+	onge.InitOngeService(config)
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/aimerny/kook-go/app/core/model"
 	jsoniter "github.com/json-iterator/go"
 	log "github.com/sirupsen/logrus"
+	"github/aimerny/elix/app/internal/client"
 	"github/aimerny/elix/app/internal/dto"
 	"gorm.io/gorm"
 	"io"
@@ -112,4 +113,22 @@ func GenMusicCard(music *dto.MaiMusicInfo) string {
 		return ""
 	}
 	return string(data)
+}
+
+func QueryMaiB50(user *dto.OngeUserInfo) (string, error) {
+	record, err := client.QueryRecord(user.DivingUsername, DeveloperToken)
+	if err != nil {
+		return "", err
+	}
+	card := model.NewCard(model.ThemeTypeInfo, model.SizeLg)
+	modules := make([]model.CardModule, 0)
+	modules = append(modules, *model.NewKMarkdown(fmt.Sprintf("**Rating:%d**", record.Rating)))
+	card.Modules = modules
+	req := []*model.CardModule{card}
+	data, err := jsoniter.Marshal(req)
+	if err != nil {
+		log.WithError(err).Error("gen mai b50 failed")
+		return "", err
+	}
+	return string(data), nil
 }
