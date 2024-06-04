@@ -48,6 +48,8 @@ type DivingPlayerRecordsResp struct {
 	Plate            string                   `json:"plate,omitempty"`
 	Rating           int                      `json:"rating"`
 	Records          []DivingPlayerRecordInfo `json:"records"`
+	Status           string                   `json:"status"`
+	Message          string                   `json:"msg"`
 }
 
 type DivingPlayerRecordInfo struct {

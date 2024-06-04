@@ -10,21 +10,23 @@ type Config struct {
 	BotToken string `json:"token"`
 	Compress bool   `json:"compress"`
 
-	ApiServerPort     int    `json:"api_server_port"`
-	WsProxyServerPort int    `json:"ws_proxy_server_port"`
-	LogLevel          string `json:"log_level"`
+	ApiServerPort            int    `json:"api_server_port"`
+	WsProxyServerPort        int    `json:"ws_proxy_server_port"`
+	LogLevel                 string `json:"log_level"`
+	DivingFishDeveloperToken string `json:"diving_fish_developer_token"`
 
 	// data source
 	OngeDatasource *DatasourceConf `json:"onge_datasource"`
 }
 
 var defaultConf = &Config{
-	BotToken:          "Your kook-go bot token",
-	Compress:          true,
-	ApiServerPort:     9001,
-	WsProxyServerPort: 9000,
-	LogLevel:          "INFO",
-	OngeDatasource:    &DatasourceConf{},
+	BotToken:                 "Your kook-go bot token",
+	Compress:                 true,
+	ApiServerPort:            9001,
+	WsProxyServerPort:        9000,
+	LogLevel:                 "INFO",
+	DivingFishDeveloperToken: "",
+	OngeDatasource:           &DatasourceConf{},
 }
 
 func ReadConfig(configPath string) *Config {

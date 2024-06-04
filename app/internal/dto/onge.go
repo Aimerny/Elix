@@ -54,4 +54,5 @@ type OngeUserInfo struct {
 	gorm.Model
 	KookId          string
 	DivingFishToken string
+	DivingUsername  string
 }
