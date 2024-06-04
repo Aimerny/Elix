@@ -63,7 +63,7 @@ type DivingPlayerRecordInfo struct {
 	LevelLabel   string  `json:"level_label"`
 	Ra           int     `json:"ra"`
 	Rate         string  `json:"rate"`
-	SongID       int     `json:"song_id"`
+	SongID       uint    `json:"song_id"`
 	Title        string  `json:"title"`
 	Type         string  `json:"type"`
 }

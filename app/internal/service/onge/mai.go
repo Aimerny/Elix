@@ -10,8 +10,12 @@ import (
 	"github/aimerny/elix/app/internal/dto"
 	"gorm.io/gorm"
 	"io"
+	"slices"
+	"sort"
 	"strconv"
 )
+
+var NewMaiMusicIds []uint
 
 func FlushMaimaiDB() {
 	maimaiResp, err := helper.Get("https://www.diving-fish.com/api/maimaidxprober/music_data")
@@ -123,6 +127,47 @@ func QueryMaiB50(user *dto.OngeUserInfo) (string, error) {
 	card := model.NewCard(model.ThemeTypeInfo, model.SizeLg)
 	modules := make([]model.CardModule, 0)
 	modules = append(modules, *model.NewKMarkdown(fmt.Sprintf("**Rating:%d**", record.Rating)))
+	// best 35
+	best35 := make([]*dto.DivingPlayerRecordInfo, 35)
+	best15 := make([]*dto.DivingPlayerRecordInfo, 15)
+
+	// 根据年龄排序
+	sort.Slice(record.Records, func(i, j int) bool {
+		return record.Records[i].Ra > record.Records[j].Ra
+	})
+
+	b35Index, b15Index := 0, 0
+
+	for _, recordInfo := range record.Records {
+		b15done := b15Index >= len(best15)
+		b35done := b35Index >= len(best35)
+		if slices.Contains(NewMaiMusicIds, recordInfo.SongID) {
+			// calculate in b15
+			if !b15done {
+				best15[b15Index] = &recordInfo
+				b15Index++
+			}
+		} else {
+			// calculate in b35
+			if !b35done {
+				best35[b35Index] = &recordInfo
+				b35Index++
+			}
+		}
+		if b15done && b35done {
+			break
+		}
+	}
+	kmd := "旧谱有:\n"
+	for index, oldSong := range best35 {
+		kmd += fmt.Sprintf("%d. %s[%s]-%s\n", index, oldSong.Title, oldSong.LevelLabel, oldSong.Rate)
+	}
+	kmd += "新谱有:\n"
+	for index, newsong := range best15 {
+		kmd += fmt.Sprintf("%d. %s[%s]-%s\n", index, newsong.Title, newsong.LevelLabel, newsong.Rate)
+	}
+
+	modules = append(modules, *model.NewKMarkdown(kmd))
 	card.Modules = modules
 	req := []*model.CardModule{card}
 	data, err := jsoniter.Marshal(req)
@@ -130,5 +175,6 @@ func QueryMaiB50(user *dto.OngeUserInfo) (string, error) {
 		log.WithError(err).Error("gen mai b50 failed")
 		return "", err
 	}
+
 	return string(data), nil
 }
