@@ -1,6 +1,7 @@
 package common
 
 import (
+	_ "embed"
 	jsoniter "github.com/json-iterator/go"
 	log "github.com/sirupsen/logrus"
 	"os"
@@ -19,15 +20,8 @@ type Config struct {
 	OngeDatasource *DatasourceConf `json:"onge_datasource"`
 }
 
-var defaultConf = &Config{
-	BotToken:                 "Your kook-go bot token",
-	Compress:                 true,
-	ApiServerPort:            9001,
-	WsProxyServerPort:        9000,
-	LogLevel:                 "INFO",
-	DivingFishDeveloperToken: "",
-	OngeDatasource:           &DatasourceConf{},
-}
+//go:embed templates/config.json
+var defaultConfBytes []byte
 
 func ReadConfig(configPath string) *Config {
 
@@ -35,9 +29,8 @@ func ReadConfig(configPath string) *Config {
 	if err != nil {
 		if os.IsNotExist(err) {
 			log.Error("read config file failed. generating default file...")
-			data, _ := jsoniter.MarshalIndent(defaultConf, "", "  ")
 			confFile, _ := os.OpenFile(configPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0777)
-			confFile.Write(data)
+			confFile.Write(defaultConfBytes)
 			os.Exit(1)
 		}
 	}
