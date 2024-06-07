@@ -119,14 +119,14 @@ func GenMusicCard(music *dto.MaiMusicInfo) string {
 	return string(data)
 }
 
-func QueryMaiB50(user *dto.OngeUserInfo) (string, error) {
-	record, err := client.QueryRecord(user.DivingUsername, DeveloperToken)
+func QueryMaiB50(divingUsername string) (*dto.DivingPlayerB50Info, error) {
+	record, err := client.QueryRecord(divingUsername, DeveloperToken)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	card := model.NewCard(model.ThemeTypeInfo, model.SizeLg)
-	modules := make([]model.CardModule, 0)
-	modules = append(modules, *model.NewKMarkdown(fmt.Sprintf("**Rating:%d**", record.Rating)))
+	//card := model.NewCard(model.ThemeTypeInfo, model.SizeLg)
+	//modules := make([]model.CardModule, 0)
+	//modules = append(modules, *model.NewKMarkdown(fmt.Sprintf("**Rating:%d**", record.Rating)))
 	// best 35
 	best35 := make([]*dto.DivingPlayerRecordInfo, 35)
 	best15 := make([]*dto.DivingPlayerRecordInfo, 15)
@@ -145,12 +145,14 @@ func QueryMaiB50(user *dto.OngeUserInfo) (string, error) {
 			// calculate in b15
 			if !b15done {
 				best15[b15Index] = &recordInfo
+				recordInfo.Cover = fmt.Sprintf("https://www.diving-fish.com/covers/%05d.png", recordInfo.SongID)
 				b15Index++
 			}
 		} else {
 			// calculate in b35
 			if !b35done {
 				best35[b35Index] = &recordInfo
+				recordInfo.Cover = fmt.Sprintf("https://www.diving-fish.com/covers/%05d.png", recordInfo.SongID)
 				b35Index++
 			}
 		}
@@ -158,23 +160,29 @@ func QueryMaiB50(user *dto.OngeUserInfo) (string, error) {
 			break
 		}
 	}
-	kmd := "旧谱有:\n"
-	for index, oldSong := range best35 {
-		kmd += fmt.Sprintf("%d. %s[%s]-%s\n", index, oldSong.Title, oldSong.LevelLabel, oldSong.Rate)
-	}
-	kmd += "新谱有:\n"
-	for index, newsong := range best15 {
-		kmd += fmt.Sprintf("%d. %s[%s]-%s\n", index, newsong.Title, newsong.LevelLabel, newsong.Rate)
-	}
+	return &dto.DivingPlayerB50Info{
+		DivingPlayerRecordsResp: *record,
+		B35:                     &best35,
+		B15:                     &best15,
+	}, nil
 
-	modules = append(modules, *model.NewKMarkdown(kmd))
-	card.Modules = modules
-	req := []*model.CardModule{card}
-	data, err := jsoniter.Marshal(req)
-	if err != nil {
-		log.WithError(err).Error("gen mai b50 failed")
-		return "", err
-	}
-
-	return string(data), nil
+	//kmd := "旧谱有:\n"
+	//for index, oldSong := range best35 {
+	//	kmd += fmt.Sprintf("%d. %s[%s]-%s\n", index, oldSong.Title, oldSong.LevelLabel, oldSong.Rate)
+	//}
+	//kmd += "新谱有:\n"
+	//for index, newsong := range best15 {
+	//	kmd += fmt.Sprintf("%d. %s[%s]-%s\n", index, newsong.Title, newsong.LevelLabel, newsong.Rate)
+	//}
+	//
+	//modules = append(modules, *model.NewKMarkdown(kmd))
+	//card.Modules = modules
+	//req := []*model.CardModule{card}
+	//data, err := jsoniter.Marshal(req)
+	//if err != nil {
+	//	log.WithError(err).Error("gen mai b50 failed")
+	//	return "", err
+	//}
+	//
+	//return string(data), nil
 }

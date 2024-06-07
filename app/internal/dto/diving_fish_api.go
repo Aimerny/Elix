@@ -52,6 +52,12 @@ type DivingPlayerRecordsResp struct {
 	Message          string                   `json:"msg"`
 }
 
+type DivingPlayerB50Info struct {
+	DivingPlayerRecordsResp
+	B35 *[]*DivingPlayerRecordInfo `json:"b35"`
+	B15 *[]*DivingPlayerRecordInfo `json:"b15"`
+}
+
 type DivingPlayerRecordInfo struct {
 	Achievements float64 `json:"achievements,omitempty"`
 	Ds           float64 `json:"ds,omitempty"`
@@ -66,4 +72,5 @@ type DivingPlayerRecordInfo struct {
 	SongID       uint    `json:"song_id"`
 	Title        string  `json:"title"`
 	Type         string  `json:"type"`
+	Cover        string  `json:"cover,omitempty"`
 }
