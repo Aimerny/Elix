@@ -3,3 +3,4 @@ session_id
 dist/
 main
 .idea/
+tmp/
