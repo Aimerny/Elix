@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.3.0](https://github.com/Aimerny/Elix/compare/v1.2.2...v1.3.0) (2024-06-07)
+
+
+### Features
+
+* :sparkles: add get diving fish player record, add init db optional param. ([c5769a2](https://github.com/Aimerny/Elix/commit/c5769a21802cbb7db5bba576f9b96183ee30b56d))
+* :sparkles: maimai info &lt;keyword&gt; return as card message ([df5563c](https://github.com/Aimerny/Elix/commit/df5563c5e68f76a4788918273dc6480b4593ff49))
+* :sparkles: maimai, chunithum command support, flush meta 2 db ([fb83aec](https://github.com/Aimerny/Elix/commit/fb83aec1c116948994e866799e6f9e1b926423ab))
+* :sparkles: support `/mai bind &lt;username&gt;` `/mai b50` ([06f5900](https://github.com/Aimerny/Elix/commit/06f59000f802dcbd1533e6e9b09de6faeb3a6ebd))
+* :zap: use gin do route and api server ([5787608](https://github.com/Aimerny/Elix/commit/5787608aead78861d57477e3e530a4744911f2d8))
+
 ## [1.2.2](https://github.com/Aimerny/Elix/compare/v1.2.1...v1.2.2) (2024-05-30)
 
 
