@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"github.com/aimerny/kook-go/app/core/model"
 	"github/aimerny/elix/app/internal/client"
 	"github/aimerny/elix/app/internal/command"
@@ -41,15 +40,15 @@ func Route(cmd *command.Command, evt *model.Event) error {
 				}
 				onge.BindUser(evt.AuthorId, cmd.Nodes[2].Content, evt)
 			case "b50":
-				user, ok := onge.FindUser(evt.AuthorId)
+				_, ok := onge.FindUser(evt.AuthorId)
 				if !ok {
 					client.QuotedReplyText("未绑定账号,请使用`/mai bind <username>`绑定账号后操作", evt)
 				}
-				b50, err := onge.QueryMaiB50(user)
-				if err != nil {
-					client.QuotedReplyText(fmt.Sprintf("查询b50失败:%e", err), evt)
-				}
-				client.QuotedReply(b50, model.EventTypeCard, evt)
+				//b50, err := onge.QueryMaiB50(user)
+				//if err != nil {
+				//	client.QuotedReplyText(fmt.Sprintf("查询b50失败:%e", err), evt)
+				//}
+				//client.QuotedReply(b50, model.EventTypeCard, evt)
 			}
 		}
 	case CommandChuni:
