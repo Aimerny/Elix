@@ -10,10 +10,7 @@ import (
 	"github/aimerny/elix/app/internal/service"
 	"io"
 	"net/http"
-	"os"
-	"path/filepath"
 	"strconv"
-	"strings"
 )
 
 func StartApiServer(port int) {
@@ -24,15 +21,8 @@ func StartApiServer(port int) {
 	router.POST("/message/send", messageSend)
 	router.GET("/channel/bot-channels", getAllBotChannelsMeta)
 
-	templateFiles, err := getHTMLFiles("templates")
-	if err != nil {
-		logrus.WithError(err).Panic("start api server failed!")
-	}
-	router.LoadHTMLFiles(templateFiles...)
-	router.Static("/assets", "./templates/assets")
-	router.GET("/onge/mai/b50", renderMaiB50)
 	logrus.Info("start api server")
-	err = router.Run(":" + strconv.Itoa(port))
+	err := router.Run(":" + strconv.Itoa(port))
 	if err != nil {
 		logrus.WithError(err).Error("api server listen stop")
 		return
@@ -62,18 +52,4 @@ func getAllBotChannelsMeta(ctx *gin.Context) {
 	searchKey := ctx.Query("searchKey")
 	channels := service.FindChannels(searchKey)
 	ctx.JSON(http.StatusOK, channels)
-}
-
-func getHTMLFiles(dir string) ([]string, error) {
-	var files []string
-	err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if !info.IsDir() && strings.HasSuffix(path, ".html") {
-			files = append(files, path)
-		}
-		return nil
-	})
-	return files, err
 }

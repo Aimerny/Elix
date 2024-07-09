@@ -29,7 +29,7 @@ func kook(wg *sync.WaitGroup) {
 		return
 	}
 	initService(config)
-	go server.StartApiServer(config.ApiServerPort)
+	// go server.StartApiServer(config.ApiServerPort)
 	go server.StartWsProxyServer(config.WsProxyServerPort)
 	kookSession.RegisterEventHandler(&kook_event.ElixEventHandler{})
 	kookSession.Start()
