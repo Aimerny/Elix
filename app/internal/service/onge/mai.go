@@ -7,15 +7,21 @@ import (
 	jsoniter "github.com/json-iterator/go"
 	log "github.com/sirupsen/logrus"
 	"github/aimerny/elix/app/internal/client"
+	"github/aimerny/elix/app/internal/common"
 	"github/aimerny/elix/app/internal/dto"
+	"github/aimerny/elix/app/util"
 	"gorm.io/gorm"
 	"io"
+	"net/http"
+	"os"
 	"slices"
 	"sort"
 	"strconv"
+	"sync"
 )
 
 var NewMaiMusicIds []uint
+var conf *common.Config
 
 func FlushMaimaiDB() {
 	maimaiResp, err := helper.Get("https://www.diving-fish.com/api/maimaidxprober/music_data")
@@ -165,24 +171,81 @@ func QueryMaiB50(divingUsername string) (*dto.DivingPlayerB50Info, error) {
 		B35:                     &best35,
 		B15:                     &best15,
 	}, nil
+}
 
-	//kmd := "旧谱有:\n"
-	//for index, oldSong := range best35 {
-	//	kmd += fmt.Sprintf("%d. %s[%s]-%s\n", index, oldSong.Title, oldSong.LevelLabel, oldSong.Rate)
-	//}
-	//kmd += "新谱有:\n"
-	//for index, newsong := range best15 {
-	//	kmd += fmt.Sprintf("%d. %s[%s]-%s\n", index, newsong.Title, newsong.LevelLabel, newsong.Rate)
-	//}
-	//
-	//modules = append(modules, *model.NewKMarkdown(kmd))
-	//card.Modules = modules
-	//req := []*model.CardModule{card}
-	//data, err := jsoniter.Marshal(req)
-	//if err != nil {
-	//	log.WithError(err).Error("gen mai b50 failed")
-	//	return "", err
-	//}
-	//
-	//return string(data), nil
+// FetchMaiResources get maimai resources
+func FetchMaiResources() error {
+	conf = common.GlobalConf()
+	maiPath := conf.DataDirPath + "/mai"
+
+	// covers
+	coverPath := maiPath + "/cover"
+	coverDir, err := util.ReadDirForce(coverPath)
+	if err != nil {
+		return err
+	}
+	defer coverDir.Close()
+	getMusicCovers(coverDir)
+
+	return nil
+}
+
+func getMusicCovers(coverDir *os.File) error {
+	log.Info("start download maimai music covers")
+	defer log.Info("download maimai music covers done!")
+	var wg sync.WaitGroup
+
+	info := &dto.MaiMusicInfo{}
+	var allMusics []*dto.MaiMusicInfo
+	OngeServiceDS.Where(info).Find(&allMusics)
+	names, err := coverDir.Readdirnames(-1)
+	if err != nil {
+		return err
+	}
+	// concurrent download covers
+	semaphore := make(chan struct{}, 5)
+	for _, musicInfo := range allMusics {
+		wg.Add(1)
+		go func(musicId uint, musicName string) {
+			semaphore <- struct{}{}
+			filename := fmt.Sprintf("%05d.png", musicId)
+			if slices.Contains(names, filename) {
+				log.WithField("title", musicName).WithField("cover", filename).Debug("found music cover, skip!")
+				wg.Done()
+			} else {
+				downloadMaiCover(musicId, musicName, &wg)
+			}
+			<-semaphore
+		}(musicInfo.Model.ID, musicInfo.Title)
+	}
+	wg.Wait()
+	return nil
+}
+
+func downloadMaiCover(musicId uint, musicName string, wg *sync.WaitGroup) {
+	defer wg.Done()
+	filename := fmt.Sprintf(conf.DataDirPath+"/mai/cover/%05d.png", musicId)
+	// 创建文件
+	out, err := os.Create(filename)
+	if err != nil {
+		log.WithError(err).Errorf("Failed to create file: %s", filename)
+		return
+	}
+	defer out.Close()
+
+	// 下载文件
+	resp, err := http.Get(fmt.Sprintf("https://www.diving-fish.com/covers/%05d.png", musicId))
+	if err != nil {
+		log.WithError(err).Errorf("Failed to download cover: %s", filename)
+		return
+	}
+	defer resp.Body.Close()
+
+	// 将内容写入文件
+	_, err = io.Copy(out, resp.Body)
+	if err != nil {
+		log.WithError(err).Errorf("Failed to write cover: %s", filename)
+		return
+	}
+	log.WithField("title", musicName).WithField("cover", filename).Info("Download cover success")
 }

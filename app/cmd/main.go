@@ -7,6 +7,7 @@ import (
 	"github/aimerny/elix/app/internal/event/kook-event"
 	"github/aimerny/elix/app/internal/server"
 	"github/aimerny/elix/app/internal/service/onge"
+	"os"
 	"sync"
 )
 
@@ -21,15 +22,16 @@ func kook(wg *sync.WaitGroup) {
 	defer wg.Done()
 
 	common.InitFlag()
-	config := common.ReadConfig(*common.ConfigPathParam)
+	config := common.GlobalConf()
 	common.InitLogger(config.LogLevel)
 	kookSession, err := session.CreateSession(config.BotToken, config.Compress)
 	if err != nil {
 		logrus.Errorf("create session failed! exiting...")
 		return
 	}
+	prepare(config)
 	initService(config)
-	// go server.StartApiServer(config.ApiServerPort)
+	go server.StartApiServer(config.ApiServerPort)
 	go server.StartWsProxyServer(config.WsProxyServerPort)
 	kookSession.RegisterEventHandler(&kook_event.ElixEventHandler{})
 	kookSession.Start()
@@ -37,5 +39,21 @@ func kook(wg *sync.WaitGroup) {
 
 func initService(config *common.Config) {
 	// init onge service
-	onge.InitOngeService(config)
+	if config.OngeEnable {
+		onge.InitOngeService(config)
+		err := onge.FetchMaiResources()
+		if err != nil {
+			logrus.WithError(err).Error("fetch mai resources failed...")
+		}
+	} else {
+		logrus.Infof("onge service disable. skip")
+	}
+}
+
+func prepare(config *common.Config) {
+	// prepare data dir
+	_, err := os.ReadDir(config.DataDirPath)
+	if os.IsNotExist(err) {
+		err = os.MkdirAll(config.DataDirPath, os.ModePerm)
+	}
 }

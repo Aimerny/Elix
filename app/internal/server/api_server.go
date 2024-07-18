@@ -20,6 +20,8 @@ func StartApiServer(port int) {
 	router.Use(middleware.LogMiddleware())
 	router.POST("/message/send", messageSend)
 	router.GET("/channel/bot-channels", getAllBotChannelsMeta)
+	mai := router.Group("/onge/mai")
+	mai.GET("/b50", renderMaiB50)
 
 	logrus.Info("start api server")
 	err := router.Run(":" + strconv.Itoa(port))
@@ -44,8 +46,12 @@ func messageSend(ctx *gin.Context) {
 		logrus.WithError(err).Error("unmarshal req body failed")
 		ctx.Status(http.StatusBadRequest)
 	}
-	action.MessageSend(msgReq)
-	logrus.WithField("msg", msgReq).Info("server send req")
+	resp, err := action.MessageSend(msgReq)
+	if err != nil {
+		logrus.WithError(err).Error("send message failed")
+		ctx.Status(http.StatusInternalServerError)
+	}
+	logrus.WithField("msg", msgReq).WithField("resp", resp).Info("server send req")
 }
 
 func getAllBotChannelsMeta(ctx *gin.Context) {
