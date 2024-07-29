@@ -41,6 +41,10 @@ func initService(config *common.Config) {
 	// init onge service
 	if config.OngeEnable {
 		onge.InitOngeService(config)
+		if !onge.OngeStatus {
+			logrus.Warning("onge service status is not enable!")
+			return
+		}
 		err := onge.FetchMaiResources()
 		if err != nil {
 			logrus.WithError(err).Error("fetch mai resources failed...")
@@ -51,6 +55,10 @@ func initService(config *common.Config) {
 }
 
 func prepare(config *common.Config) {
+	if !onge.OngeStatus {
+		logrus.Info("onge service disable. skip")
+		return
+	}
 	// prepare data dir
 	_, err := os.ReadDir(config.DataDirPath)
 	if os.IsNotExist(err) {
