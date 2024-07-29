@@ -7,11 +7,12 @@ import (
 	"github.com/gorilla/websocket"
 	jsoniter "github.com/json-iterator/go"
 	log "github.com/sirupsen/logrus"
+	"github/aimerny/elix/app/internal/client"
 	"github/aimerny/elix/app/internal/dto"
 	"strings"
 )
 
-var Clients = make(map[*websocket.Conn]bool)
+var Clients = make([]*client.WsClient, 0)
 
 func FindChannels(searchKey string) *dto.GetChannelResp {
 	res := &dto.GetChannelResp{
@@ -58,16 +59,17 @@ func FindChannels(searchKey string) *dto.GetChannelResp {
 func ForwardEventToAllClients(evt *model.Event) {
 	// send to ws clients
 	clients := Clients
-	for conn, status := range clients {
-		if conn == nil || !status {
-			log.WithField("client", conn).Warn("client status is not active or client is nil.has been removed")
-			delete(clients, conn)
+	for _, wsClient := range clients {
+		if !wsClient.Status {
+			log.WithField("wsClient", wsClient).Warn("wsClient status is not active or wsClient is nil.has been removed")
 			continue
 		}
+		wsClient.Lock()
 		bytes, _ := jsoniter.Marshal(evt)
-		err := conn.WriteMessage(websocket.TextMessage, bytes)
+		err := wsClient.WriteMessage(websocket.TextMessage, bytes)
 		if err != nil {
 			log.WithError(err).WithField("data", string(bytes)).Error("send ws text message failed")
 		}
+		wsClient.Unlock()
 	}
 }

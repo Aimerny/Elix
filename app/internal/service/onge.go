@@ -17,7 +17,7 @@ var chuniChartTypeList = []string{"Basic", "Advance", "Export", "Master", "Ultra
 
 // InitOngeService Init music game about service
 func InitOngeService(dbConf *common.DatasourceConf) {
-	if OngeServiceDS == nil || dbConf != nil {
+	if OngeServiceDS != nil || dbConf != nil {
 		OngeServiceDS = dbConf.DbConfig.ConnectDB()
 	}
 	log.Infof("init onge service finished")
