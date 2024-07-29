@@ -8,6 +8,8 @@ github.com/aimerny/kook-go v1.3.1 h1:viDqTzXaBZt6KSwy3ajln8ztJcMj9XPfoH/fbhTN0oU
 github.com/aimerny/kook-go v1.3.1/go.mod h1:yvRErUKGTy424BUzIFxGht/1T9XaSaXX/Jz6FnqXk5k=
 github.com/aimerny/kook-go v1.3.2 h1:+Dh0044Zf4q1WEqAuzlAOX0ocZCpKjGzE48D3Jd6Oco=
 github.com/aimerny/kook-go v1.3.2/go.mod h1:yvRErUKGTy424BUzIFxGht/1T9XaSaXX/Jz6FnqXk5k=
+github.com/aimerny/kook-go v1.3.3 h1:a999BDzT1BXHeHLDqG7J1Ko5Wm5HwWo9ZoxDMSfpX7w=
+github.com/aimerny/kook-go v1.3.3/go.mod h1:yvRErUKGTy424BUzIFxGht/1T9XaSaXX/Jz6FnqXk5k=
 github.com/avast/retry-go/v4 v4.5.1 h1:AxIx0HGi4VZ3I02jr78j5lZ3M6x1E0Ivxa6b0pUUh7o=
 github.com/avast/retry-go/v4 v4.5.1/go.mod h1:/sipNsvNB3RRuT5iNcb6h73nw3IBmXJ/H3XrCQYSOpc=
 github.com/bytedance/sonic v1.11.6 h1:oUp34TzMlL+OY1OUWxHqsdkgC/Zfc85zGqw9siXjrc0=
