@@ -32,6 +32,7 @@ func elixProcess(content string, evt *model.Event) error {
 	if ok := strings.HasPrefix(content, cmdPrefix); !ok {
 		log.WithField("content", content).Debug("message is not command, common process")
 		service.ForwardEventToAllClients(evt)
+		return nil
 	}
 	parsedCommand, err := command.Parse(content)
 	if err != nil {
