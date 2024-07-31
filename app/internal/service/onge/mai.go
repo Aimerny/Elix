@@ -10,7 +10,6 @@ import (
 	"github/aimerny/elix/app/internal/common"
 	"github/aimerny/elix/app/internal/dto"
 	"github/aimerny/elix/app/util"
-	"gorm.io/gorm"
 	"io"
 	"net/http"
 	"os"
@@ -62,7 +61,7 @@ func FlushMaimaiDB() {
 		for index, chart := range divingMusicInfo.Charts {
 
 			newChart := &dto.MaiChartInfo{
-				Model:      gorm.Model{ID: uint(divingMusicInfo.Cids[index])},
+				Model:      dto.Model{ID: uint(divingMusicInfo.Cids[index])},
 				MusicId:    idInt,
 				Type:       calcMaiChartType(index),
 				Difficulty: divingMusicInfo.Difficulties[index],

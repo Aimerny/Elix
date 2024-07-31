@@ -1,11 +1,11 @@
 package client
 
 import (
-	"github.com/gorilla/websocket"
-	"sync"
 	"github.com/aimerny/kook-go/app/core/action"
 	"github.com/aimerny/kook-go/app/core/model"
+	"github.com/gorilla/websocket"
 	log "github.com/sirupsen/logrus"
+	"sync"
 )
 
 type WsClient struct {

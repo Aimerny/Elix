@@ -5,7 +5,6 @@ import (
 	jsoniter "github.com/json-iterator/go"
 	log "github.com/sirupsen/logrus"
 	"github/aimerny/elix/app/internal/dto"
-	"gorm.io/gorm"
 	"io"
 )
 
@@ -44,7 +43,7 @@ func FlushChuniDB() {
 		// check world end music, only one chart
 		if len(divingMusicInfo.Charts) > 5 {
 			newChart := &dto.ChuniChartInfo{
-				Model:      gorm.Model{ID: uint(divingMusicInfo.Cids[5])},
+				Model:      dto.Model{ID: uint(divingMusicInfo.Cids[5])},
 				MusicId:    divingMusicInfo.Id,
 				Type:       calcChuniChartType(5),
 				Difficulty: divingMusicInfo.Difficulties[5],
@@ -57,7 +56,7 @@ func FlushChuniDB() {
 			// normal charts
 			for index, chart := range divingMusicInfo.Charts {
 				newChart := &dto.ChuniChartInfo{
-					Model:      gorm.Model{ID: uint(divingMusicInfo.Cids[index])},
+					Model:      dto.Model{ID: uint(divingMusicInfo.Cids[index])},
 					MusicId:    divingMusicInfo.Id,
 					Type:       calcChuniChartType(index),
 					Difficulty: divingMusicInfo.Difficulties[index],
