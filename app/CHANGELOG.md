@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/Aimerny/Elix/compare/v1.3.0...v1.3.1) (2024-07-31)
+
+
+### Bug Fixes
+
+* :bug: common msg skip route ([#18](https://github.com/Aimerny/Elix/issues/18)) ([5027e2e](https://github.com/Aimerny/Elix/commit/5027e2e4d3bcffdea27e857118d1a86aaabefb0d))
+
 ## [1.3.0](https://github.com/Aimerny/Elix/compare/v1.2.1...v1.3.0) (2024-07-29)
 
 
