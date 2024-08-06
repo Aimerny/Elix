@@ -7,7 +7,6 @@ import (
 	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
 
 const (
@@ -41,7 +40,7 @@ func (c *DatasourceConf) UnmarshalJSON(b []byte) error {
 }
 
 type DbConfig interface {
-	ConnectDB() *gorm.DB
+	ConnectDB() (*gorm.DB, error)
 }
 
 type MysqlDBConfig struct {
@@ -52,7 +51,7 @@ type MysqlDBConfig struct {
 	ExtParams string `json:"ext_params"`
 }
 
-func (c *MysqlDBConfig) ConnectDB() *gorm.DB {
+func (c *MysqlDBConfig) ConnectDB() (*gorm.DB, error) {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", c.User, c.Password, c.Address, c.Database)
 	if len(c.ExtParams) > 0 {
 		dsn = dsn + "?" + c.ExtParams
@@ -60,11 +59,12 @@ func (c *MysqlDBConfig) ConnectDB() *gorm.DB {
 	log.Infof(">>>>>>> Connect Mysql dsn: %s", dsn)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		QueryFields: true,
-		Logger:      logger.Default.LogMode(logger.Info),
+		//Logger:      logger.Default.LogMode(logger.Silent),
 	})
 	if err != nil {
 		log.Errorf("Connect to Mysql [%s] failed, config:[%v]", c.Database, c)
+		return nil, errors.New(fmt.Sprintf("Connect to Mysql [%s] failed, config:[%v]", c.Database, c))
 	}
 	log.Infof(">>>>>>> Connect Mysql db [%s] succeed!", c.Database)
-	return db
+	return db, nil
 }

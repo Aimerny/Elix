@@ -40,6 +40,7 @@
    "log_level": "INFO" //日志等级,有如下选项: TRACE, DEBUG, INFO, WARN, ERROR. 不配置默认为INFO级别
 }
 ```
+### [CHANGELOG](https://github.com/Aimerny/Elix/blob/main/app/CHANGELOG.md)
 
 ### 其他
 
