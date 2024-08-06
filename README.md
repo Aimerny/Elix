@@ -1,5 +1,8 @@
 # Elix
-
+[![Issues](https://img.shields.io/github/issues/Aimerny/Elix?style=flat-square)](https://github.com/Aimerny/Elix/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr/Aimerny/Elix?style=flat-square)](https://github.com/Aimerny/Elix/pulls)
+[![Release](https://img.shields.io/github/v/release/Aimerny/Elix?include_prereleases&style=flat-square)](https://github.com/Aimerny/Elix/releases)
+[![Github Release Downloads](https://img.shields.io/github/downloads/Aimerny/Elix/total?label=Github%20Release%20Downloads&style=flat-square)](https://github.com/Aimerny/Elix/releases)
 > 一个Kook机器人的事件代理服务
 
 本项目创建的初衷是为了更方便地将kook的机器人的事件转发到下游连接的clients中(类似于[go-cqhttp](https://github.com/Mrs4s/go-cqhttp)的事件上报服务)，采用websocket方式进行网络通信。
